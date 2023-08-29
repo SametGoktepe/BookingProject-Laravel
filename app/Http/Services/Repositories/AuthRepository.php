@@ -4,6 +4,8 @@ namespace App\Http\Services\Repositories;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Resources\LoginResource;
+use App\Http\Resources\RegisterResource;
 use App\Http\Services\Interfaces\IAuth;
 use App\Models\User;
 use Carbon\Carbon;
@@ -38,7 +40,7 @@ class AuthRepository implements IAuth
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'user' => $user,
+            'user' => RegisterResource::make($user),
             'access_token' => $token,
             'token_type' => 'Bearer',
         ]);
@@ -66,7 +68,7 @@ class AuthRepository implements IAuth
             $user = User::where('email', $request->email)->first();
             $token = $user->createToken('auth_token')->plainTextToken;
             return response()->json([
-                'user' => $user,
+                'user' => LoginResource::make($user),
                 'access_token' => $token,
                 'token_type' => 'Bearer',
             ], Response::HTTP_OK);

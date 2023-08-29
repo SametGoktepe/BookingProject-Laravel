@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,4 +24,20 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'register');
     Route::post('/login', 'login');
     Route::post('/logout', 'logout');
+});
+
+Route::middleware('auth:sanctum')->name('api.')->group(function () {
+    Route::controller(UserController::class)->prefix('user')->group(function () {
+        Route::get('/me', 'me')->name('me');
+        Route::post('/add-address', 'addAddress')->name('add-address');
+        Route::prefix('{user_id}')->group(function () {
+            Route::post('/', 'update')->name('update');
+            Route::get('/', 'show')->name('show');
+            Route::delete('/', 'destroy')->name('destroy');
+            Route::post('/update-password', 'updatePassword')->name('password-reset');
+            Route::prefix('{address_id}')->group(function () {
+                Route::post('/', 'updateAddress')->name('update-address');
+            });
+        });
+    });
 });
