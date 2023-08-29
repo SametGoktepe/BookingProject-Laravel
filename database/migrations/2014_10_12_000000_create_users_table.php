@@ -15,10 +15,18 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('phone')->nullable()->unique();
+            $table->unsignedBigInteger('role_id')->default(1)->index();
+            $table->unsignedBigInteger('address_id')->nullable();
+            $table->string('avatar')->nullable();
+            $table->date('dob');
+            $table->integer('age');
+            $table->tinyInteger('status')->default(1)->comment('1: active, 0: inactive');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
