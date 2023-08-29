@@ -30,6 +30,8 @@ Route::middleware('auth:sanctum')->name('api.')->group(function () {
     Route::controller(UserController::class)->prefix('user')->group(function () {
         Route::get('/me', 'me')->name('me');
         Route::post('/add-address', 'addAddress')->name('add-address');
+        Route::post('/verify-email', 'verifyEmail')->name('verify-email');
+        Route::post('/resend-email', 'resendEmail')->name('resend-email');
         Route::prefix('{user_id}')->group(function () {
             Route::post('/', 'update')->name('update');
             Route::get('/', 'show')->name('show');

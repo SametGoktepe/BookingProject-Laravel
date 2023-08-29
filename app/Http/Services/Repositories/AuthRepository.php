@@ -7,14 +7,17 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\LoginResource;
 use App\Http\Resources\RegisterResource;
 use App\Http\Services\Interfaces\IAuth;
+use App\Mail\VerifyEmail;
+use App\Models\EmailVerify;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
-
+use PharIo\Manifest\Email;
 
 class AuthRepository implements IAuth
 {
@@ -36,6 +39,22 @@ class AuthRepository implements IAuth
             'age' => Carbon::parse($request->dob)->age,
             'phone' => $request->phone,
         ]);
+
+        if ($user) {
+            $verify2 = EmailVerify::where('email', $request->email);
+
+            if ($verify2->exists()) {
+                $verify2->delete();
+            }
+
+            $pin = rand(100000, 999999);
+            EmailVerify::create([
+                'email' => $request->email,
+                'token' => $pin,
+            ]);
+
+            Mail::to($request->email)->send(new VerifyEmail($pin));
+        }
 
         $token = $user->createToken('auth_token')->plainTextToken;
 

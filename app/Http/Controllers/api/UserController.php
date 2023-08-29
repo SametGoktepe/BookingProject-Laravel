@@ -4,18 +4,22 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddressRequest;
+use App\Http\Requests\EmailVerify;
 use App\Http\Requests\PasswordUpdateRequest;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Services\Repositories\EmailVerifyRepository;
 use App\Http\Services\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     protected UserRepository $userRepository;
+    protected EmailVerifyRepository $emailVerifyRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, EmailVerifyRepository $emailVerifyRepository)
     {
         $this->userRepository = $userRepository;
+        $this->emailVerifyRepository = $emailVerifyRepository;
     }
 
     public function me()
@@ -51,5 +55,15 @@ class UserController extends Controller
     public function updateAddress(AddressRequest $request, $user_id, $address_id)
     {
         return $this->userRepository->addressUpdate($request, $user_id, $address_id);
+    }
+
+    public function verifyEmail(EmailVerify $request)
+    {
+        return $this->emailVerifyRepository->verify($request);
+    }
+
+    public function resendEmail()
+    {
+        return $this->emailVerifyRepository->resend();
     }
 }
