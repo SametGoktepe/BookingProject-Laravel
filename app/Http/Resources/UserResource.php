@@ -24,7 +24,7 @@ class UserResource extends JsonResource
             'phone' => $this->phone,
             'avatar' => $this->avatar ?? '/storage/avatars/default.png',
             'role' => $this->role->name ?? null,
-            'address' => $this->address ?? [],
+            'address' => AddressResource::make($this->address) ?? [],
             'birthday' => Carbon::parse($this->dob)->format('d-m-Y'),
             'register_date' => $this->created_at->format('d-m-Y'),
        ];

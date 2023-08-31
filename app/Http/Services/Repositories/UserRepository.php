@@ -155,7 +155,10 @@ class UserRepository implements IUser
         $address = Address::create([
             'user_id' => $user->id,
             'address' => $request->address,
-            'default' => $request->default ? true : false
+            'default' => $request->default ? true : false,
+            'city_id' => $request->city_id,
+            'country_id' => $request->country_id,
+            'state_id' => $request->state_id,
         ]);
 
         if ($request->default) {
@@ -189,7 +192,14 @@ class UserRepository implements IUser
         }
 
         $address->address = $request->address;
-        $address->default = $request->default ? true : false;
+        $address->city_id = $request->city_id;
+        $address->country_id = $request->country_id;
+        $address->state_id = $request->state_id;
+
+        if ($request->default) {
+            Address::where('user_id', $user_id)->update(['default' => false]);
+        }
+
         $address->save();
 
         return response()->json([
