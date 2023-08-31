@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\ForgotPasswordController;
+use App\Http\Controllers\api\HotelController;
 use App\Http\Controllers\api\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -48,5 +49,9 @@ Route::middleware('auth:sanctum')->name('api.')->group(function () {
                 Route::post('/', 'updateAddress')->name('update-address');
             });
         });
+    });
+
+    Route::controller(HotelController::class)->name('api.')->group(function () {
+        Route::get('/hotels', 'hotels')->name('hotels');
     });
 });

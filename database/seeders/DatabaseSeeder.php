@@ -21,6 +21,13 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             RoleSeeder::class,
+            CountriesTableSeeder::class,
+            StatesTableSeeder::class,
+            CitiesTableChunkOneSeeder::class,
+            CitiesTableChunkTwoSeeder::class,
+            CitiesTableChunkThreeSeeder::class,
+            CitiesTableChunkFourSeeder::class,
+            CitiesTableChunkFiveSeeder::class,
         ]);
     }
 }
