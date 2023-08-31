@@ -11,5 +11,4 @@ interface IPassword
     public function forgotPassword(ForgotPassword $request);
     public function verifyPin(VerfiyPin $request);
     public function resetPassword(PasswordUpdateRequest $request);
-    public function resend(ForgotPassword $request);
 }
