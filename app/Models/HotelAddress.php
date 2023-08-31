@@ -13,6 +13,9 @@ class HotelAddress extends Model
     protected $table = 'hotel_addresses';
 
     protected $fillable = [
+        'city_id',
+        'country_id',
+        'state_id',
         'address',
         'hotel_id',
         'default',
@@ -21,5 +24,20 @@ class HotelAddress extends Model
     public function hotel()
     {
         return $this->hasOne(Hotels::class);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(Cities::class, 'city_id', 'id');
+    }
+
+    public function country()
+    {
+        return $this->belongsTo(Countries::class, 'country_id', 'id');
+    }
+
+    public function state()
+    {
+        return $this->belongsTo(States::class, 'state_id', 'id');
     }
 }

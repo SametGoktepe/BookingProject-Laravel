@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -28,6 +29,7 @@ class DatabaseSeeder extends Seeder
             CitiesTableChunkThreeSeeder::class,
             CitiesTableChunkFourSeeder::class,
             CitiesTableChunkFiveSeeder::class,
+            RoomTypeSeeder::class,
         ]);
     }
 }
